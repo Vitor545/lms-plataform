@@ -17,13 +17,13 @@ export const ourFileRouter = {
     },
   })
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
+    .onUploadComplete(() => { }),
   courseAttachment: f(["text", "image", "video", "audio", "pdf"])
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
-    chapterVideo: f({video: {maxFileSize: "512GB", maxFileCount: 1}})
+    .onUploadComplete(() => { }),
+  chapterVideo: f({ video: { maxFileSize: "512GB", maxFileCount: 1 } })
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
+    .onUploadComplete(() => { }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

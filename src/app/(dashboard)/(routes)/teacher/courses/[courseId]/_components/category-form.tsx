@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Combobox } from "@/components/ui/combobox";
 import {
   Form,
   FormControl,
@@ -7,7 +8,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Course } from "@prisma/client";
 import axios from "axios";
@@ -22,17 +23,18 @@ import * as z from "zod";
 interface Props {
   initialData: Course;
   courseId: string;
+  options: { label: string; value: string; }[];
 }
 const formSchema = z.object({
-  title: z.string().min(1, {
-    message: "O título é obrigatório",
-  }),
+  categoryId: z.string().min(1),
 });
 
-const TitleForm: NextPage<Props> = ({ initialData, courseId }) => {
+const CategoryForm: NextPage<Props> = ({ initialData, courseId, options }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: {
+      categoryId: initialData.categoryId || "",
+    },
   });
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
@@ -40,28 +42,39 @@ const TitleForm: NextPage<Props> = ({ initialData, courseId }) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Título atualizado com sucesso");
+      toast.success("Descrição atualizada com sucesso");
       setIsEditing((prev) => !prev);
       router.refresh();
     } catch (error) {
-      toast.error("Ocorreu um erro ao atualizar o título");
+      toast.error("Ocorreu um erro ao atualizar a descrição");
     }
   };
+
+  const selectedOption = options.find((option) => option.value === initialData.categoryId)
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Título do curso
+        Categoria do curso
         <Button onClick={() => setIsEditing((prev) => !prev)} variant="ghost">
           {isEditing && <>Cancelar</>}
           {!isEditing && (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Editar título
+              Editar categoria
             </>
           )}
         </Button>
       </div>
-      {!isEditing && <p className="text-sm mt-2">{initialData.title}</p>}
+      {!isEditing && (
+        <p
+          className={cn(
+            "text-sm mt-2",
+            !initialData.categoryId && "text-slate-500 italic"
+          )}
+        >
+          {selectedOption?.label || "Sem categoria"}
+        </p>
+      )}
       {isEditing && (
         <Form {...form}>
           <form
@@ -69,16 +82,12 @@ const TitleForm: NextPage<Props> = ({ initialData, courseId }) => {
             className="space-y-4 mt-4"
           >
             <FormField
-              name="title"
+              name="categoryId"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="e.g. 'Curso avançado de finanças'"
-                      {...field}
-                    />
+                    <Combobox options={options} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -96,4 +105,4 @@ const TitleForm: NextPage<Props> = ({ initialData, courseId }) => {
   );
 };
 
-export default TitleForm;
+export default CategoryForm;

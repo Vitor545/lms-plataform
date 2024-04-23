@@ -10,6 +10,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Course } from "@prisma/client";
 import axios from "axios";
 import { Pencil } from "lucide-react";
 import { NextPage } from "next";
@@ -20,9 +21,7 @@ import toast from "react-hot-toast";
 import * as z from "zod";
 
 interface Props {
-  initialData: {
-    description: string | null;
-  };
+  initialData: Course;
   courseId: string;
 }
 const formSchema = z.object({

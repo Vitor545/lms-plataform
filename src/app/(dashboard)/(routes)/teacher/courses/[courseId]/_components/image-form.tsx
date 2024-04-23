@@ -79,7 +79,7 @@ const ImageForm: NextPage<Props> = ({ initialData, courseId }) => {
               }
             }}
           />
-          <div>16:9 aspect ratio recomendado</div>
+          <div className="text-xs text-muted-foreground mt-4">16:9 aspect ratio recomendado</div>
         </div>
       )}
     </div>
