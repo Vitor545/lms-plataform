@@ -43,11 +43,11 @@ const PriceForm: NextPage<Props> = ({ initialData, courseId }) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Descrição atualizada com sucesso");
+      toast.success("Preço atualizado com sucesso");
       setIsEditing((prev) => !prev);
       router.refresh();
     } catch (error) {
-      toast.error("Ocorreu um erro ao atualizar a descrição");
+      toast.error("Ocorreu um erro ao atualizar o preço");
     }
   };
   return (

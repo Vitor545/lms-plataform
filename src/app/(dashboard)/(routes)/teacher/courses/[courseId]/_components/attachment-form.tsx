@@ -61,12 +61,6 @@ const AttachmentForm: NextPage<Props> = ({ initialData, courseId }) => {
               Adicionar arquivo
             </>
           )}
-          {!isEditing && initialData.imageUrl && (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Editar imagem
-            </>
-          )}
         </Button>
       </div>
       {!isEditing &&
@@ -90,7 +84,7 @@ const AttachmentForm: NextPage<Props> = ({ initialData, courseId }) => {
                       <File className="w-4 h-4 mr-2 flex-shrink-0" />
                       <p className="text-xs line-clamp-1">{attachment.name}</p>
                       {deletingId === attachment.id && (
-                        <div>
+                        <div className="ml-auto">
                           <Loader2 className="w-4 h-4 animate-spin" />
                         </div>
                       )}
