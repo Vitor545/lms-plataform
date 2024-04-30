@@ -10,6 +10,7 @@ import ImageForm from "./_components/image-form";
 import CategoryForm from "./_components/category-form";
 import PriceForm from "./_components/price-form";
 import AttachmentForm from "./_components/attachment-form";
+import ChaptersForm from "./_components/chapters-form";
 
 interface Props {
   params: { courseId: string };
@@ -17,11 +18,18 @@ interface Props {
 
 const CourseIdPage: NextPage<Props> = async ({ params }) => {
   const { userId } = auth();
+  if(!userId) redirect('/')
   const course = await db.course.findUnique({
     where: {
       id: params.courseId,
+      userId,
     },
     include: {
+      chapters: {
+        orderBy: {
+          position: 'asc',
+        }
+      },
       attachments: {
         orderBy: {
           createdAt: 'desc',
@@ -46,6 +54,7 @@ const CourseIdPage: NextPage<Props> = async ({ params }) => {
     course.imageUrl,
     course.price,
     course.categoryId,
+    course.chapters.some(chapter => chapter.isPublished),
   ];
 
   const totalFields = requiredFields.length;
@@ -80,7 +89,7 @@ const CourseIdPage: NextPage<Props> = async ({ params }) => {
               <h2 className="text-xl">Capítulos do curso</h2>
             </div>
             <div>
-              TODO: c
+              <ChaptersForm courseId={course.id} initialData={course} />
             </div>
           </div>
           <div>
@@ -95,7 +104,7 @@ const CourseIdPage: NextPage<Props> = async ({ params }) => {
               <IconBadge icon={File} />
               <h2 className="text-xl">Recursos e anexos</h2>
             </div>
-            <AttachmentForm courseId={course.id} initialData={course}/>
+            <AttachmentForm courseId={course.id} initialData={course} />
           </div>
         </div>
       </div>
