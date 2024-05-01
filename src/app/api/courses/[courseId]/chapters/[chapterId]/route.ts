@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function PATCH(req: Request, { params: { courseId, chapterId } }: { params: { courseId: string, chapterId: string } }) {
     try {
         const { userId } = auth();
-        const { isPublished, values } = await req.json();
+        const { isPublished, ...values } = await req.json();
         if (!userId) return new NextResponse("Unauthorized", { status: 401 });
         const courseOwner = await db.course.findUnique({
             where: {

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import * as React from 'react';
 import ChapterTitleForm from './_components/chapter-title-form';
+import ChapterDescriptionForm from './_components/chapter-description-form';
 
 export interface IChapterIdPageProps {
     params: {
@@ -67,6 +68,7 @@ export default async function ChapterIdPage({ params: { courseId, chapterId } }:
                             <h2 className='text-xl'>Customize seu capítulo</h2>
                         </div>
                         <ChapterTitleForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
+                        <ChapterDescriptionForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
                     </div>
                 </div>
             </div>
