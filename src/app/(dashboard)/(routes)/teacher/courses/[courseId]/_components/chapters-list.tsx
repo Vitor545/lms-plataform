@@ -70,7 +70,7 @@ export default function ChaptersList({ items, onReorder, onEdit }: IChaptersList
                                                     <Badge>Gratuito</Badge>
                                                 )
                                             }
-                                            <Badge className={cn('bg-slate-500')}>
+                                            <Badge className={cn('bg-slate-500', chapter.isPublished && 'bg-sky-700 hover:bg-sky-700/80')}>
                                                 {chapter.isPublished ? 'Publicado' : 'Rascunho'}
                                             </Badge>
                                             <Pencil onClick={() => onEdit(chapter.id)}

@@ -9,6 +9,8 @@ import ChapterTitleForm from './_components/chapter-title-form';
 import ChapterDescriptionForm from './_components/chapter-description-form';
 import ChapterAccessForm from './_components/chapter-access-form';
 import ChapterVideoForm from './_components/chapter-video-form';
+import Banner from '@/components/banner';
+import ChapterActions from './_components/chapter-actions';
 
 export interface IChapterIdPageProps {
     params: {
@@ -43,8 +45,12 @@ export default async function ChapterIdPage({ params: { courseId, chapterId } }:
     const completedFields = requiredFields.filter(Boolean).length
     const completedText = `${completedFields}/${totalFields}`
 
+    const isCompleted = requiredFields.every(Boolean)
+
 
     return (
+       <>
+       {!chapter.isPublished && <Banner label='Esse capítulo não foi publicado. Ele não aparecerá no curso' variant='warning' />}
         <div className='p-6'>
             <div className='flex items-center justify-between'>
                 <div className='w-full'>
@@ -59,6 +65,12 @@ export default async function ChapterIdPage({ params: { courseId, chapterId } }:
                                 Complete todos os campos obrigatórios {completedText}
                             </span>
                         </div>
+                        <ChapterActions 
+                        disabled={!isCompleted}
+                        courseId={courseId}
+                        chapterId={chapterId}
+                        isPublished={chapter.isPublished}
+                         />
                     </div>
                 </div>
             </div>
@@ -93,5 +105,6 @@ export default async function ChapterIdPage({ params: { courseId, chapterId } }:
                 </div>
             </div>
         </div>
+       </>
     );
 }
