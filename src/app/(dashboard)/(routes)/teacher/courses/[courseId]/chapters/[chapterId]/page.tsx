@@ -1,12 +1,14 @@
 import IconBadge from '@/components/icon-badge';
 import { db } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
-import { ArrowLeft, LayoutDashboard } from 'lucide-react';
+import { ArrowLeft, Eye, LayoutDashboard, Video } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import * as React from 'react';
 import ChapterTitleForm from './_components/chapter-title-form';
 import ChapterDescriptionForm from './_components/chapter-description-form';
+import ChapterAccessForm from './_components/chapter-access-form';
+import ChapterVideoForm from './_components/chapter-video-form';
 
 export interface IChapterIdPageProps {
     params: {
@@ -70,6 +72,24 @@ export default async function ChapterIdPage({ params: { courseId, chapterId } }:
                         <ChapterTitleForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
                         <ChapterDescriptionForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
                     </div>
+                    <div>
+                        <div className='flex items-center gap-x-2'>
+                            <IconBadge icon={Eye} />
+                            <h2 className='text-xl'>
+                                Configuração de acesso
+                            </h2>
+                        </div>
+                        <ChapterAccessForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
+                    </div>
+                </div>
+                <div>
+                    <div className='flex items-center gap-x-2'>
+                        <IconBadge icon={Video} />
+                        <h2 className='text-xl'>
+                            Adicionar vídeo
+                        </h2>
+                    </div>
+                    <ChapterVideoForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
                 </div>
             </div>
         </div>
