@@ -24,8 +24,8 @@ export default function Actions({ disabled, courseId, isPublished }: IActionsPro
             setIsLoading(true)
             await axios.delete(`/api/courses/${courseId}`)
             toast.success("Curso deletado com sucesso")
-            router.refresh()
             router.push(`/teacher/courses`)
+            router.refresh()
         } catch {
             toast.error("Ocorreu um erro ao deletar o curso")
         } finally {

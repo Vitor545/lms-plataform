@@ -39,6 +39,7 @@ const CreatePage: NextPage<Props> = ({}) => {
     try {
       const response = await axios.post("/api/courses", values);
       router.push(`/teacher/courses/${response.data.id}`);
+      router.refresh();
       toast.success("Curso criado com sucesso.");
     } catch {
       toast.error("Ocorreu um erro ao criar o curso.");
