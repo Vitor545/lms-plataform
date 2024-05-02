@@ -38,9 +38,9 @@ const CreatePage: NextPage<Props> = ({}) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.post("/api/courses", values);
+      toast.success("Curso criado com sucesso.");
       router.push(`/teacher/courses/${response.data.id}`);
       router.refresh();
-      toast.success("Curso criado com sucesso.");
     } catch {
       toast.error("Ocorreu um erro ao criar o curso.");
     }
